@@ -1,0 +1,85 @@
+{
+  "$schema": "https://code.claude.com/schemas/settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run build)",
+      "Bash(npm test)",
+      "Bash(npm run lint)",
+      "Bash(npm run typecheck)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(rg *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Read(./**)",
+      "Edit(./src/**)",
+      "Edit(./tests/**)",
+      "Edit(./__tests__/**)",
+      "Edit(./docs/**)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(npm publish *)",
+      "Bash(git push *)",
+      "Bash(gh auth *)",
+      "Edit(./.env*)",
+      "Edit(./db/migrations/**)",
+      "Edit(./vendor/**)",
+      "Edit(./node_modules/**)",
+      "Read(./.env*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm run lint --silent || true",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash(git push *)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Push blocked by hook — humans push, not Claude.' && exit 1"
+          }
+        ]
+      }
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "filesystem": {
+      "allowRead": ["./", "~/.cache"],
+      "allowWrite": ["./"],
+      "denyRead": ["~/.ssh", "~/.aws", "~/.gnupg", "~/.config/gh", "/etc"],
+      "denyWrite": ["~/.ssh", "~/.aws", "~/.gnupg", "/etc"]
+    },
+    "network": {
+      "allowedDomains": [
+        "registry.npmjs.org",
+        "github.com",
+        "api.github.com",
+        "api.anthropic.com"
+      ]
+    }
+  },
+  "env": {
+    "ANTHROPIC_LOG": "info"
+  }
+}

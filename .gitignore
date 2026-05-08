@@ -1,0 +1,25 @@
+# Python eval harness
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+
+# Eval results — committed only as last_results.json snapshot baseline
+evals/results/
+evals/.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Claude Code session artifacts (these are per-developer, not shared)
+.claude/local/
+.claude/session.log
+claude-progress.txt

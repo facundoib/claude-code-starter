@@ -1,0 +1,49 @@
+{
+  "$schema": "https://code.claude.com/schemas/settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(pip install *)",
+      "Bash(pytest *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(rg *)",
+      "Bash(ls *)",
+      "Read(./**)",
+      "Edit(./templates/**)",
+      "Edit(./docs/**)",
+      "Edit(./evals/**)",
+      "Edit(./.claude/skills/**)",
+      "Edit(*.md)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(git push *)",
+      "Edit(./LICENSE)",
+      "Edit(./.env*)",
+      "Read(./.env*)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "filesystem": {
+      "allowRead": ["./"],
+      "allowWrite": ["./"],
+      "denyRead": ["~/.ssh", "~/.aws", "~/.gnupg"],
+      "denyWrite": ["~/.ssh", "~/.aws", "~/.gnupg"]
+    },
+    "network": {
+      "allowedDomains": [
+        "api.anthropic.com",
+        "github.com",
+        "api.github.com",
+        "pypi.org",
+        "files.pythonhosted.org"
+      ]
+    }
+  }
+}
