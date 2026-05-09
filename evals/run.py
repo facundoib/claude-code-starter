@@ -23,10 +23,13 @@ from pathlib import Path
 
 import anthropic
 
-MODEL = "claude-sonnet-4-6"
-TRIALS_PER_TASK = 3
+from judge import judge
+
+MODEL = os.environ.get("EVAL_MODEL", "claude-sonnet-4-6")
+TRIALS_PER_TASK = int(os.environ.get("EVAL_TRIALS", "3"))
 MAX_TOKENS = 1024
 REGRESSION_THRESHOLD = 0.05  # 5pp drop counts as regression
+DEFAULT_JUDGE_THRESHOLD = 0.7
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 EVALS_DIR = REPO_ROOT / "evals"
@@ -79,7 +82,7 @@ def verify(task, output_text):
         return not any(s.lower() in output_text.lower() for s in args["needles"])
 
     if vtype == "llm_judge":
-        return None
+        return None  # deferred to LLM-judge in run_task
 
     raise ValueError(f"Unknown verifier: {vtype}")
 
@@ -90,17 +93,26 @@ def run_task(client, task):
         try:
             out = call_model(client, task["prompt"], task.get("system"))
             passed = verify(task, out["text"])
+            judge_score = None
+            if passed is None and task["verifier"] == "llm_judge":
+                jr = judge(rubric=task["args"]["rubric"], response=out["text"])
+                judge_score = jr.get("score")
+                threshold = task["args"].get("threshold", DEFAULT_JUDGE_THRESHOLD)
+                passed = judge_score is not None and judge_score >= threshold
         except anthropic.APIError as e:
             trials.append({"passed": False, "error": str(e), "tokens_in": 0, "tokens_out": 0, "wall_s": 0})
             continue
 
-        trials.append({
+        trial = {
             "passed": passed,
             "tokens_in": out["tokens_in"],
             "tokens_out": out["tokens_out"],
             "wall_s": out["wall_s"],
             "output_preview": out["text"][:300],
-        })
+        }
+        if judge_score is not None:
+            trial["judge_score"] = judge_score
+        trials.append(trial)
 
     pass_results = [t["passed"] for t in trials if t.get("passed") is not None]
     pass_rate = sum(pass_results) / len(pass_results) if pass_results else None

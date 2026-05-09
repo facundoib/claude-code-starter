@@ -13,9 +13,11 @@ You are running the project's eval suite as a regression check. Do NOT modify th
    - `evals/tasks.jsonl` (the test set)
    - `evals/run.py` (the runner)
    - `evals/judge.py` (the LLM-as-judge)
-   - `evals/last_results.json` (committed baseline)
+   - `evals/last_results.json` (committed baseline — see bootstrap note below)
 
-   If any are missing, tell the user and stop. Do not synthesize fake results.
+   If `tasks.jsonl`, `run.py`, or `judge.py` are missing, tell the user and stop. Do not synthesize fake results.
+
+   **Bootstrap (first run only)**: if `evals/last_results.json` does NOT exist, this is the first ever run. Proceed with step 2 — `run.py` will print "No baseline yet" and tell the user how to set this run as the baseline. Do not block on the missing file.
 
 2. **Run the harness**:
    ```bash

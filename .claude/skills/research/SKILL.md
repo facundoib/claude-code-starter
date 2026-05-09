@@ -17,7 +17,7 @@ You are the **lead orchestrator**. Do NOT do the research yourself in this turn 
    - **Source guidance**: which sources are authoritative, which to ignore.
    - **Tool/source budget**: 3-10 calls for fact-finding, 10-15 for comparison. Cap explicitly.
    - **Boundaries**: what NOT to research.
-4. **Dispatch the subagents in parallel** using the Task tool (or the equivalent in your environment). Track them.
+4. **Dispatch the subagents in parallel** using the `Agent` tool. In Claude Code, this means one `Agent` tool call per subquestion in a single assistant message (parallel) — each with `subagent_type: "general-purpose"` unless you have a more specific subagent defined under `.claude/agents/<name>.md`. Track them.
 5. **Each subagent returns** a condensed finding (~1-2K tokens). Do NOT have them dump raw search results into your context.
 6. **Synthesize** into `RESEARCH.md` with sections:
    - Executive answer (3-5 sentences).
@@ -31,6 +31,10 @@ You are the **lead orchestrator**. Do NOT do the research yourself in this turn 
 - The question fits in one context window of one Claude.
 - The question requires real-time coordination across the agents (multi-agent breaks down with shared mutable state).
 - Token cost matters more than breadth — `/research` uses roughly 15× the tokens of a single chat session. (source: `/engineering/multi-agent-research-system`)
+
+## Subagent definitions (optional)
+
+This starter ships with a `general-purpose` subagent built into Claude Code; the skill works out of the box with that. If you want named subagents with narrower toolsets (e.g. a `web-researcher` restricted to `WebSearch`/`WebFetch`/`Read`), define them in `.claude/agents/<name>.md` with frontmatter `name`, `description`, and an optional `tools` allowlist. The frontmatter shape mirrors `.claude/skills/<name>/SKILL.md`. See `code.claude.com/docs` for the current schema.
 
 ## Anti-patterns to refuse
 

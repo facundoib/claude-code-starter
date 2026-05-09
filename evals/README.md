@@ -19,12 +19,14 @@ Cada task corre **3 veces** (configurable en `run.py::TRIALS_PER_TASK`). Los res
 
 ## Setear baseline por primera vez
 
-Después de la primera corrida exitosa:
+`evals/last_results.json` no viene en el repo — la primera corrida lo bootstrappea. Después de la primera corrida exitosa:
 
 ```bash
 cp evals/results/<latest>.json evals/last_results.json
 git add evals/last_results.json && git commit -m "Set eval baseline"
 ```
+
+A partir de ahí, cada corrida se compara contra ese baseline. Para refrescarlo después de un cambio que mejora el pass rate sin regresiones, repetí los dos comandos.
 
 ## Cuándo correr
 

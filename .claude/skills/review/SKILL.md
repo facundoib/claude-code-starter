@@ -46,6 +46,10 @@ List anything in the diff that doesn't map to the stated requirement. Question w
 - Replying "looks good" without specific findings.
 - Inventing problems to look thorough — if the diff is clean, say so.
 
+## Position in the loop
+
+Runs after `/tdd` (or after a manual implementation), in a **fresh Claude session**. If the diff touches `CLAUDE.md`, `.claude/skills/*`, prompts, models, or tools, the user should also run `/eval` before merging (`/engineering/april-23-postmortem` documents the kind of silent behavior regression that motivates this).
+
 ## Why
 
 Source: `/engineering/claude-code-best-practices` — Writer/Reviewer with fresh context is one of the documented effective patterns; the same Claude that wrote the code is biased toward defending it.

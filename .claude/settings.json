@@ -2,8 +2,9 @@
   "$schema": "https://code.claude.com/schemas/settings.json",
   "permissions": {
     "allow": [
-      "Bash(python *)",
-      "Bash(pip install *)",
+      "Bash(python evals/run.py)",
+      "Bash(python evals/judge.py *)",
+      "Bash(pip install -r evals/requirements.txt)",
       "Bash(pytest *)",
       "Bash(git status)",
       "Bash(git diff *)",
@@ -15,7 +16,7 @@
       "Edit(./docs/**)",
       "Edit(./evals/**)",
       "Edit(./.claude/skills/**)",
-      "Edit(*.md)"
+      "Edit(./**/*.md)"
     ],
     "deny": [
       "Bash(rm -rf *)",

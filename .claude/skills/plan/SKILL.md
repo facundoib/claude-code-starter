@@ -27,6 +27,10 @@ You are operating in **plan mode**. Do NOT write any production code in this tur
 - Pure questions that don't change code.
 - Tasks the user already pre-planned (they sent a numbered list).
 
+## What comes next in the loop
+
+After the plan is approved, the canonical next step is `/tdd` if the change has clear acceptance criteria (test-first); otherwise implement directly and finish with `/review` in a fresh session before commit. This is the explore → plan → code → commit loop from `/engineering/claude-code-best-practices`.
+
 ## Why
 
 Source: `/engineering/claude-code-best-practices` — the explore → plan → code → commit loop is the canonical recipe; jumping straight to code is the documented anti-pattern.

@@ -1,5 +1,9 @@
 {
   "$schema": "https://code.claude.com/schemas/settings.json",
+
+  "//": "Default permission mode. Uncomment 'auto' to enable autonomous mode (classifier + sandbox). Source: /engineering/claude-code-auto-mode — FPR drops from 8.5% to 0.4% vs liberal denial.",
+  "//defaultMode": "auto",
+
   "permissions": {
     "allow": [
       "Bash(npm run build)",
@@ -52,6 +56,7 @@
     ],
     "PreToolUse": [
       {
+        "//": "Belt-and-suspenders example: the deny rule above already blocks git push without a prompt. This hook is here as a syntax demonstration of PreToolUse blocking — it would be useful for finer-grained matchers (e.g. blocking `git push origin main` while allowing `git push origin feat/*`).",
         "matcher": "Bash(git push *)",
         "hooks": [
           {
@@ -79,6 +84,8 @@
       ]
     }
   },
+
+  "//env": "ANTHROPIC_LOG below is consumed by the Anthropic Python SDK (used by evals/run.py and judge.py), NOT by Claude Code itself. Remove this block if you don't run the eval harness locally.",
   "env": {
     "ANTHROPIC_LOG": "info"
   }

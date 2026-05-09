@@ -1,0 +1,52 @@
+# Smoke test: run the eval harness against the live API on every push to master
+# and weekly. Source: /engineering/demystifying-evals-for-ai-agents — evals
+# should run on every release; this workflow is the minimal continuous version
+# for the starter itself, so we eat our own dog food.
+#
+# To enable in your fork: set the ANTHROPIC_API_KEY repo secret. Without it,
+# the job is skipped (not failed).
+name: eval
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - "evals/**"
+      - ".claude/**"
+      - ".github/workflows/eval.yml"
+  pull_request:
+    paths:
+      - "evals/**"
+      - ".claude/**"
+  schedule:
+    - cron: "0 12 * * 1"  # Mondays 12:00 UTC
+  workflow_dispatch:
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.RUN_EVALS == 'true' || secrets.ANTHROPIC_API_KEY != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install -r evals/requirements.txt
+
+      - name: Run eval harness
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EVAL_MODEL: ${{ vars.EVAL_MODEL || 'claude-sonnet-4-6' }}
+        run: python evals/run.py
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results-${{ github.run_id }}
+          path: evals/results/
+          if-no-files-found: ignore
+          retention-days: 30

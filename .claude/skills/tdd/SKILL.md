@@ -29,6 +29,10 @@ You are operating in **TDD mode**. Code does NOT come before tests.
 - Writing tests *after* the implementation (call it what it is — that's not TDD).
 - Asserting against implementation details (private methods, internal state) instead of behavior.
 
+## Position in the loop
+
+Comes after `/plan` (the plan defines what "done" looks like; tests encode it). Comes before `/review`, which evaluates the resulting diff with fresh context. If the change touches `CLAUDE.md`, `.claude/skills/*`, or anything that affects model behavior, also run `/eval` after to catch regressions (`/engineering/april-23-postmortem`).
+
 ## Why
 
 Source: `/engineering/claude-code-best-practices` — TDD is one of the explicitly recommended workflows; tests-first creates a verifiable contract for "done".

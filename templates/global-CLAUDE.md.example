@@ -1,0 +1,17 @@
+<!--
+  Personal/global CLAUDE.md — copy to ~/.claude/CLAUDE.md
+
+  Source: /engineering/claude-code-best-practices — Claude Code reads
+  ~/.claude/CLAUDE.md on every session, *in addition to* the project's
+  CLAUDE.md. Use it for preferences that hold across all your projects.
+
+  Three to five lines is plenty. Every token here costs attention in every
+  session, regardless of which project you're in. Do not pad to "feel
+  complete" — that's the documented anti-pattern.
+-->
+
+- Commits in <TODO English | Spanish>, imperative mood, no emojis.
+- Prefer <TODO TypeScript over JavaScript | Python over Bash | Rust over Go> when both are reasonable.
+- Do NOT run unrequested refactors or "drive-by" cleanups.
+- For shell snippets, default to <TODO POSIX bash | PowerShell> unless the project says otherwise.
+- When uncertain about a path or convention, ask before guessing.
