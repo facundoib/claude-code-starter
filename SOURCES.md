@@ -1,6 +1,6 @@
 # SOURCES
 
-Tabla de procedencia: 24 posts del blog de Anthropic engineering, qué dice cada uno, y qué secciones de este repo alimenta.
+Tabla de procedencia: posts del blog de Anthropic engineering y recetas del cookbook de la plataforma (platform.claude.com/cookbook), qué dice cada uno, y qué secciones de este repo alimenta.
 
 | # | Post | Fecha | Key takeaway (1 oración) | Alimenta |
 |---|------|-------|--------------------------|----------|
@@ -28,12 +28,14 @@ Tabla de procedencia: 24 posts del blog de Anthropic engineering, qué dice cada
 | 22 | [swe-bench-sonnet](https://www.anthropic.com/engineering/swe-bench-sonnet) | 2025-01-06 | Bash + Edit (con `old_str`/`new_str` exact match único) + 200K context + scaffolding mínimo = 49% en SWE-bench Verified. | docs/tools, ANTIPATTERNS A30 |
 | 23 | [building-effective-agents](https://www.anthropic.com/engineering/building-effective-agents) | 2024-12-19 | Workflows ≠ agents; empezar simple (single LLM + retrieval + tools), agregar agentic patterns solo cuando la complejidad lo demanda. | docs/patterns, PRINCIPLES §8 |
 | 24 | [contextual-retrieval](https://www.anthropic.com/engineering/contextual-retrieval) | 2024-09-19 | Prepend chunk-context generado por Claude antes de embedear; +BM25 +reranking juntos cortan retrieval failure 67%. Use prompt caching para hacerlo viable. | docs/patterns §F4 |
+| 25 | [context-engineering-tools](https://platform.claude.com/cookbook/tool-use-context-engineering-context-engineering-tools) | 2026-03 | Clearing > compaction cuando los tool results dominan el contexto: clearing cuesta zero inferencia y da 67% reducción (128K→43K tokens); compaction cuesta un call y da ~50%. En un run de referencia, file-read results = 96.3% del contexto total. | docs/patterns §F3, ANTIPATTERNS A38 |
+| 26 | [tool-evaluation](https://platform.claude.com/cookbook/tool-evaluation-tool-evaluation) | 2025-09 | Tool schema sin documentar operaciones soportadas fuerza a Claude a inventar workarounds: sin `log10()` documentado, la tarea de pH tomó 16 tool calls vs 1-7 con schema documentado; 87.5% accuracy en suite de 8 tareas, 22.73s avg por tarea. | docs/tools Pattern 6, ANTIPATTERNS A9 |
 
 ---
 
 ## Cómo se actualiza esta tabla
 
-Cuando Anthropic publica un post nuevo en `/engineering/`, se evalúa contra estos criterios:
+Cuando Anthropic publica un post nuevo en `/engineering/` o una receta nueva en `platform.claude.com/cookbook`, se evalúa contra estos criterios:
 
 - ¿Trae una recomendación accionable? Si no (puro postmortem sin lecciones forward-looking), no entra.
 - ¿La recomendación contradice o supera alguna existente? Si sí, actualizar la sección afectada y marcar el post anterior como superseded.
@@ -43,6 +45,20 @@ PRs para agregar posts nuevos van con: link al post, fecha, takeaway en una orac
 
 ---
 
-## Posts considerados pero excluidos
+## Fuentes consideradas pero excluidas
 
-Ninguno hasta ahora — los 24 posts del hub al momento de la curaduría inicial entraron todos. Si en el futuro algún post resulta no aplicable (ej. demasiado específico a un producto Anthropic interno), se documenta la razón acá.
+### Entradas del cookbook — primera pasada, mayo 2026
+
+De 7 entradas evaluadas, 5 se excluyeron:
+
+| Entrada | Razón |
+|---|---|
+| Outcomes: Agents That Verify Their Own Work | Claude Managed Agents product-specific (`client.beta.sessions.events.send`); no aplica a Claude Code CLI |
+| Session Memory Compaction | Audiencia API/SDK; el patrón de background threading no mapea al `compact-resume/SKILL` de Claude Code CLI |
+| Basic Workflows | Cubierto por post #23 (building-effective-agents) con mayor profundidad y métricas duras |
+| Evaluator Optimizer | Cubierto por post #4 (harness-design) con métricas cuantitativas ($9 vs $200) que el cookbook no aporta |
+| Orchestrator Workers | Cubierto por posts #19 y #23; no agrega sobre `docs/patterns §F2` |
+
+### Posts del blog de engineering
+
+Ninguno excluido — los 24 posts del hub al momento de la curaduría inicial entraron todos. Si en el futuro algún post resulta no aplicable (ej. demasiado específico a un producto Anthropic interno), se documenta acá.

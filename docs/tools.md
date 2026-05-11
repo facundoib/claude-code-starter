@@ -142,9 +142,9 @@ La description de una tool se carga en cada turn. Es un prompt persistente. Edit
 **Bien**:
 > "Returns the user's profile, recent activity, and team memberships. Returns null fields for any data the requester is not authorized to see — check the `permissions` field in the response. IDs follow format `usr_<10 alphanumeric>`. For batch lookup, prefer `get_users_batch` (max 50 IDs per call)."
 
-Formats explícitos, ID schemes explícitos, pointers a tools relacionadas.
+Formats explícitos, ID schemes explícitos, pointers a tools relacionadas. Documentar también **qué operaciones soporta** la tool: una calculadora sin `log10()`, `sqrt()`, `round()` declarados forzó 16 tool calls para una tarea de pH (workarounds hardcoded como `**0.5` para raíz cuadrada). Con documentación completa, tareas equivalentes tomaron 1-7 calls.
 
-> Fuente: `/engineering/writing-tools-for-agents`, `/engineering/swe-bench-sonnet`
+> Fuente: `/engineering/writing-tools-for-agents`, `/engineering/swe-bench-sonnet`, `cookbook/tool-evaluation`
 
 ### Pattern 7: input_examples para tools con schema complejo
 

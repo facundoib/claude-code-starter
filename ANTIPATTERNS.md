@@ -1,6 +1,6 @@
 # ANTIPATTERNS
 
-Lista enumerada de prácticas que los 24 posts marcan explícitamente como problemáticas. Cada una con el por qué y la fuente. Si vas a hacer alguna de estas a propósito, conviene saber qué estás aceptando.
+Lista enumerada de prácticas que los posts de Anthropic engineering y el cookbook de la plataforma marcan explícitamente como problemáticas. Cada una con el por qué y la fuente. Si vas a hacer alguna de estas a propósito, conviene saber qué estás aceptando.
 
 ---
 
@@ -43,8 +43,8 @@ Lista enumerada de prácticas que los 24 posts marcan explícitamente como probl
 **Fuente**: `/engineering/writing-tools-for-agents`
 
 ### A9. Tratar tool descriptions como throwaway
-**Por qué**: las descriptions se cargan en cada turno. Editalas como editás prompts. La diferencia entre una description ambigua y una con ejemplos puede ser dígitos en un benchmark.
-**Fuente**: `/engineering/writing-tools-for-agents`, `/engineering/swe-bench-sonnet`
+**Por qué**: las descriptions se cargan en cada turno. Editalas como editás prompts. La diferencia entre una description ambigua y una con ejemplos puede ser dígitos en un benchmark. Medido en el cookbook: una calculadora sin operaciones documentadas (`log10()`, `sqrt()`, `round()`) generó 16 tool calls para una tarea de pH — workarounds hardcoded por falta de documentación. Con schema documentado, tareas equivalentes tomaron 1-7 calls.
+**Fuente**: `/engineering/writing-tools-for-agents`, `/engineering/swe-bench-sonnet`, `cookbook/tool-evaluation`
 
 ---
 
@@ -189,3 +189,11 @@ Lista enumerada de prácticas que los 24 posts marcan explícitamente como probl
 ### A37. Encodear assumptions sobre capacidades del modelo en el harness
 **Por qué**: cada release de modelo nuevo es ocasión de revisar qué piezas del harness ya no son necesarias. La complejidad del harness no debe persistir más allá de su utilidad.
 **Fuente**: `/engineering/harness-design-long-running-apps`, `/engineering/managed-agents`
+
+---
+
+## Context management (API/SDK)
+
+### A38. Usar compaction cuando el cuello de botella son tool results grandes
+**Por qué**: compaction cuesta un call de inferencia y reduce el contexto ~50%. Si el problema son resultados de tools re-fetchables (file reads, API responses), clearing es la primitiva correcta: costo cero, hasta 67% de reducción. En el run de referencia del cookbook, el 96.3% del contexto total eran resultados de file-reads — compactar esa estructura es solución cara para el problema equivocado. Orden correcto: clearing (bottleneck = tool results) → compaction (bottleneck = diálogo acumulado) → memory (bottleneck = cross-session). **Nota de alcance**: `context_management` con `clear_tool_uses_20250919` es una feature del API/SDK; en Claude Code CLI el equivalente es pedirle explícitamente a Claude que no reproduzca outputs grandes de tools ya procesadas.
+**Fuente**: `cookbook/tool-use-context-engineering-context-engineering-tools`

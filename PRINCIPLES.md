@@ -1,6 +1,6 @@
 # PRINCIPLES
 
-El por qué de cada decisión del repo. Si discrepás con alguno, el motivo estará en alguno de los 24 posts citados — léelo antes de descartar el principio.
+El por qué de cada decisión del repo. Si discrepás con alguno, el motivo estará en el post o receta citado — léelo antes de descartar el principio.
 
 ---
 

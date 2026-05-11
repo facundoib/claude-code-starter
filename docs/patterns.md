@@ -1,6 +1,6 @@
 # Patterns
 
-Patrones de diseño de agentes documentados en los 24 posts. Cada uno: cuándo usarlo, cuándo no, y cómo cablearlo.
+Patrones de diseño de agentes documentados en los posts de Anthropic engineering y en el cookbook de la plataforma. Cada uno: cuándo usarlo, cuándo no, y cómo cablearlo.
 
 ---
 
@@ -102,7 +102,11 @@ Métricas reportadas: solo run = 20 min, $9. Harness v1 = 6 hs, $200. Harness v2
 
 3. **Pocos few-shots canónicos**, no exhaustivos. 3-5 ejemplos diversos > 30 ejemplos parecidos.
 
-4. **Compaction** cuando el contexto se llena (`/compact` built-in).
+4. **Compaction y clearing según el cuello de botella**:
+   - Si el contexto lo dominan resultados de tools grandes (file reads, API responses) → *clearing* primero: zero costo de inferencia, hasta 67% de reducción. En un run de referencia, 96.3% del contexto era resultados de file-reads.
+   - Si el contexto lo domina el diálogo acumulado → *compaction* (`/compact` built-in): un call de inferencia, ~50% de reducción.
+   - En Claude Code CLI: `/compact` cubre el caso general. Para tool results: pedirle explícitamente a Claude que no reproduzca outputs grandes ya procesados.
+   - En API/SDK: `context_management` con `clear_tool_uses_20250919` (clearing) o `compact_20260112` (compaction).
 
 5. **Structured note-taking** para horizons largos (`claude-progress.txt`, ver patrón F1).
 

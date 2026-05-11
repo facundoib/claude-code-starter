@@ -1,6 +1,6 @@
 # claude-code-starter
 
-Setup opinado para que un dev arranque a usar Claude Code productivamente en menos de 30 minutos. Todas las recomendaciones acá vienen exclusivamente de los 24 posts publicados en [anthropic.com/engineering](https://www.anthropic.com/engineering) — sin opiniones de terceros, sin "best practices" inventadas, sin recetas de Twitter. Cada decisión cita el post fuente.
+Setup opinado para que un dev arranque a usar Claude Code productivamente en menos de 30 minutos. Todas las recomendaciones acá vienen exclusivamente de los posts publicados en [anthropic.com/engineering](https://www.anthropic.com/engineering) y de las recetas del [cookbook de la plataforma](https://platform.claude.com/cookbook) — sin opiniones de terceros, sin "best practices" inventadas, sin recetas de Twitter. Cada decisión cita el post fuente.
 
 ## Qué es
 
@@ -11,7 +11,7 @@ Setup opinado para que un dev arranque a usar Claude Code productivamente en men
 
 ## Qué NO es
 
-- No es una opinión sobre cómo usar Claude. Si Anthropic no lo dijo en uno de esos 24 posts, no está acá.
+- No es una opinión sobre cómo usar Claude. Si Anthropic no lo documentó en su blog de engineering o en el cookbook de la plataforma, no está acá.
 - No es exhaustivo. Curaduría agresiva: lo que el 80/20 indica que mueve la aguja, no toda recomendación posible.
 - No es estable como API. Anthropic actualiza el blog seguido (varios posts citados tienen update notes). Cuando algo cambia, este repo se ajusta — o queda flaggeado en `SOURCES.md`.
 - No incluye claims de marketing del tipo "10× tu productividad". Si hay un número acá, viene con cita inline al post que lo midió.
@@ -48,7 +48,7 @@ claude-code-starter/
 ├── QUICKSTART.md          ← día-1 paso a paso
 ├── PRINCIPLES.md          ← por qué cada decisión
 ├── ANTIPATTERNS.md        ← qué NO hacer
-├── SOURCES.md             ← tabla 24 posts → secciones
+├── SOURCES.md             ← tabla de posts y recetas → secciones
 ├── templates/
 │   ├── CLAUDE.md          ← template anotado para copiar a tu repo
 │   └── settings.json      ← settings.json verificado contra docs actuales
