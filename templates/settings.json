@@ -1,5 +1,5 @@
 {
-  "$schema": "https://code.claude.com/schemas/settings.json",
+  "$schema": "https://www.schemastore.org/claude-code-settings.json",
 
   "//": "Default permission mode. Uncomment 'auto' to enable autonomous mode (classifier + sandbox). Source: /engineering/claude-code-auto-mode — FPR drops from 8.5% to 0.4% vs liberal denial.",
   "//defaultMode": "auto",
